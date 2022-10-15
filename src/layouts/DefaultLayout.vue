@@ -18,8 +18,8 @@ const items = ref([
 </script>
 
 <template>
-  <section class="flex align-items-center flex-column gap-5"  >
-    <Menubar :model="items" class="flex justify-content-between wrapper" >
+  <section class="flex align-items-center flex-column gap-5">
+    <Menubar :model="items" class="flex justify-content-between wrapper">
       <template #start>
         <router-link to="/">
           <img alt="logo" src="../assets/images/just-buy-logo-cut.png" height="50" class="logo">
@@ -27,9 +27,11 @@ const items = ref([
       </template>
     </Menubar>
 
+
     <div class="wrapper flex justify-content-center">
       <slot></slot>
     </div>
+
 
   </section>
 
@@ -43,6 +45,12 @@ const items = ref([
 
 .wrapper {
   width: 60%;
+}
+
+@media (max-width: 1000px){
+  .wrapper {
+    width: 100%;
+  }
 }
 
 </style>
