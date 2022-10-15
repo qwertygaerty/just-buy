@@ -29,7 +29,6 @@
                         </span>
         <small v-else-if="(valid.email.$invalid && submitted) || valid.email.$pending.$response"
                class="p-error">{{ valid.email.required.$message.replace('Value', 'Email') }}</small>
-
       </div>
 
       <div class="field">
@@ -77,14 +76,12 @@ let isRequestFailed = ref(false)
 const login = async (isFormValid: boolean) => {
   submitted.value = true;
 
-  if (!isFormValid) {
-    return;
-  }
+  if (!isFormValid) return;
 
   isSentData.value = true;
   let res = await auth.login(state);
   isSentData.value = false;
-  res.status !== 200 ? isRequestFailed.value = true : router.push('/catalog');
+  res.status !== 200 ? isRequestFailed.value = true : await router.push('/catalog');
 
 }
 
