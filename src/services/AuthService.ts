@@ -1,13 +1,18 @@
-import fetcher from "@/assets/fetcher";
+import fetcher from "@/services/fetcher";
 import type LoginInterface from "@/assets/helpers/interfaces/LoginInterface";
 
-export default class AuthService {
-    login = async (model: LoginInterface) => {
-        let data = await fetcher.post("login", model).catch((res) => {
+
+export const auth = {
+    async login(model: LoginInterface) {
+        return await fetcher.post("login", model).then((res)=>{
             console.log(res)
-        })
-        console.log(data)
-    }
+            return res
+        }).catch((err)=>{
+            console.log(err.response.data.error)
+            return err.response.data.error
+        });
+    },
 }
+
 
 

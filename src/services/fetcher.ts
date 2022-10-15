@@ -7,6 +7,7 @@ let fetcher = axios.create({
     },
 });
 
+
 fetcher.interceptors.request.use(
     config => {
         const token = localStorage.getItem('justToken');
@@ -22,6 +23,9 @@ fetcher.interceptors.request.use(
 
     error => Promise.reject(error.response.data.error)
 );
+
+
+
 
 
 export default fetcher;

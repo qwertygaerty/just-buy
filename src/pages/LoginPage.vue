@@ -11,46 +11,81 @@
 
     <div class="p-fluid">
 
+      <Message severity="error" v-if="isRequestFailed">Неверная почта или пароль</Message>
+
       <div class="field">
         <div class="p-float-label p-input-icon-right">
           <i class="pi pi-envelope"/>
-          <InputText id="email" v-model="model.email"
-                     aria-describedby="email-error"/>
+          <InputText id="email" v-model="state.email"
+                     aria-describedby="email-error" v-tooltip="'Введите почту'"
+                     :class="{'p-invalid':valid.email.$invalid && submitted}"/>
           <label for="email">Почта</label>
         </div>
+
+        <span v-if="valid.email.$error && submitted">
+                            <span id="email-error" v-for="(error, index) of valid.email.$errors" :key="index">
+                            <small class="p-error">{{ error.$message }}</small>
+                            </span>
+                        </span>
+        <small v-else-if="(valid.email.$invalid && submitted) || valid.email.$pending.$response"
+               class="p-error">{{ valid.email.required.$message.replace('Value', 'Email') }}</small>
+
       </div>
 
       <div class="field">
         <div class="p-float-label">
-
-          <Password id="password" v-model="model.password" toggleMask :feedback="false"/>
+          <Password id="password" v-model="state.password" toggleMask :feedback="false" v-tooltip="'Введите пароль'"
+                    :class="{'p-invalid':valid.password.$invalid && submitted}"/>
           <label for="password">Пароль</label>
         </div>
+        <small v-if="(valid.password.$invalid && submitted) || valid.password.$pending.$response"
+               class="p-error">{{ valid.password.required.$message.replace('Value', 'Password') }}</small>
       </div>
 
-      <Button icon="pi" class="w-full" @click="login">Войти</Button>
+      <BlockUI :blocked='isSentData'>
+        <Button icon="pi" class="w-full" @click="login(!valid.$invalid)">Войти</Button>
+      </BlockUI>
 
     </div>
+
   </div>
 </template>
 
 <script lang="ts" setup>
+import {auth} from "@/services/AuthService";
+import type LoginInterface from "@/assets/helpers/interfaces/LoginInterface";
+import useVuelidate from "@vuelidate/core";
+import {reactive, ref} from "vue";
+import {email, required} from "@vuelidate/validators";
+import router from "@/router";
 
-import {ref} from "vue";
-import fetcher from "@/assets/fetcher";
-
-// console.log(import.meta.env.VITE_APP_API_URL)
-
-let model = ref({
+const state: LoginInterface = reactive({
   email: '',
   password: '',
-})
+});
 
-const login = async () => {
-  let data = await fetcher.post("login").catch((res) => {
-    console.log(res)
-  })
-  console.log(data)
+const rules = {
+  email: {required, email},
+  password: {required},
+};
+
+const valid = useVuelidate(rules, state);
+const submitted = ref(false);
+let isSentData = ref(false)
+let isRequestFailed = ref(false)
+
+const login = async (isFormValid: boolean) => {
+  submitted.value = true;
+
+  if (!isFormValid) {
+    return;
+  }
+
+  isSentData.value = true;
+  let res = await auth.login(state);
+  isSentData.value = false;
+  res.status !== 200 ? isRequestFailed.value = true : router.push('/catalog');
+
 }
 
 </script>
