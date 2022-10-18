@@ -1,8 +1,12 @@
 <template>
   <div class="card">
 
-    <DataView v-if="!isLoading" :value="products" :layout="layout" :paginator="true" :rows="9" :sortOrder="sortOrder"
-              :sortField="sortField">
+    <DataView :value="products" :layout="layout" :paginator="true" :rows="9" :sortOrder="sortOrder" :sortField="sortField" class="w-full">
+
+      <template #empty>
+        <SkeletonCard v-if="isLoading"  :number-of-skeleton="numberOfSkeleton"/>
+      </template>
+
       <template #header>
         <div class="grid grid-nogutter">
           <div class="col-6" style="text-align: left">
@@ -18,12 +22,13 @@
       <template #list="slotProps">
         <div class="col-12">
           <div class="product-list-item">
-            <Image src="https://picsum.photos/1920/1080" width="350" alt="Image Text" preview></Image>
+            <Image src="https://random.imagecdn.app/1920/1080" alt="Image Text" preview/>
 
             <div class="product-list-detail">
               <div class="product-name">{{ slotProps.data.name }}</div>
-              <div class="product-description">{{ slotProps.data.description }}</div>
+              <div class="product-description">{{ slotProps.data.description.slice(0, 80) }}{{slotProps.data.description.length > 80 ? '...' : ''}}</div>
             </div>
+
             <div class="product-list-action">
               <span class="product-price">${{ slotProps.data.price }}</span>
               <Button icon="pi pi-shopping-cart" label="Add to Cart"></Button>
@@ -33,18 +38,18 @@
       </template>
 
       <template #grid="slotProps">
-        <div class="col-12 md:col-4">
+
+        <div v-if="!isLoading" class="col-12 md:col-4 p-0">
           <div class="product-grid-item card">
             <div class="product-grid-item-top">
               <div>
                 <i class="pi pi-tag product-category-icon"></i>
-                <span class="product-category">{{ slotProps.data.category }}</span>
               </div>
             </div>
             <div class="product-grid-item-content">
-              <Image src="https://picsum.photos/1920/900" width="350" alt="Image Text" preview></Image>
+              <Image src="https://random.imagecdn.app/500/150" class="card-image" alt="Image Text" preview/>
               <div class="product-name">{{ slotProps.data.name }}</div>
-              <div class="product-description">{{ slotProps.data.description }}</div>
+              <div class="product-description">{{ slotProps.data.description.slice(0, 120) }}{{slotProps.data.description.length > 120 ? '...' : ''}}</div>
 
             </div>
             <div class="product-grid-item-bottom">
@@ -64,6 +69,7 @@ import {computed, ref} from "vue";
 import {useAsyncState} from "@vueuse/core";
 import {productRequest} from "@/services/APIService";
 import type Product from "@/assets/helpers/interfaces/Product";
+import SkeletonCard from "@/layouts/card/SkeletonCard.vue"
 
 const layout = ref('grid');
 const sortKey = ref();
@@ -105,7 +111,6 @@ const onSortChange = (event: { value: { value: any; }; }) => {
 .card {
   background: #ffffff;
   padding: 1rem;
-  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 1px 3px 0 rgba(0, 0, 0, .12);
   border-radius: 4px;
   margin-bottom: 2rem;
 }
@@ -139,9 +144,10 @@ const onSortChange = (event: { value: { value: any; }; }) => {
   align-items: center;
   padding: 1rem;
   width: 100%;
+  gap: 1rem;
 
   img {
-    min-width: 50px;
+    width: 20rem;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     margin-right: 2rem;
   }
@@ -185,6 +191,8 @@ const onSortChange = (event: { value: { value: any; }; }) => {
   img {
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     margin: 2rem 0;
+    width: 100%;
+    height: 12rem;
   }
 
   .product-grid-item-content {
@@ -195,11 +203,6 @@ const onSortChange = (event: { value: { value: any; }; }) => {
     font-size: 1.5rem;
     font-weight: 600;
   }
-}
-
-.product-grid-item-skeleton {
-  box-shadow: none;
-  min-width: 20rem;
 }
 
 @media screen and (max-width: 576px) {
