@@ -18,6 +18,14 @@ export const auth = {
             return err.response.data.error
         });
     },
+    async logout() {
+        return await fetcher.get("logout").then((res) => {
+            return res
+        }).catch((err) => {
+            return err.response.data.error
+        });
+    },
+
 }
 
 export const productRequest = {

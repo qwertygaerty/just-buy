@@ -81,7 +81,6 @@ const login = async (isFormValid: boolean) => {
   isSentData.value = true;
   let res = await auth.login(state);
   isSentData.value = false;
-
   if ( res.status === 200) {
     userAuth.value = res.data.data.user_token
     await router.push('/catalog');

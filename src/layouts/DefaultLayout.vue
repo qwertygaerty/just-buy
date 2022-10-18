@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import {computed} from "vue";
 import {useStorage} from '@vueuse/core'
+import {auth} from "@/services/APIService";
 
 let userAuth = useStorage('justToken', '', localStorage)
 
-const items = computed(()=> {
+const items = computed(() => {
+
+  console.log(userAuth.value)
+
   if (userAuth.value?.length > 0) {
     return [
       {
@@ -15,7 +19,10 @@ const items = computed(()=> {
       {
         label: 'Выйти',
         icon: 'pi pi-fw pi-sign-out layout-menuitem-icon',
-        command:() => userAuth.value = null
+        command: async () => {
+          await auth.logout();
+          userAuth.value = null;
+        }
       },
     ]
   } else {

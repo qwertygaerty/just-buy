@@ -7,22 +7,21 @@
       </template>
 
 
-      <template #content="slotProps">
+      <template #content="slotProps" >
         <Card>
           <template #content>
-            <div class="parallax-item fl-wrap" data-scrollax-parent="true">
-              <div class="parallax-header fl-wrap">
-                <span>01.</span>
+              <div class="parallax-item fl-wrap " >
+                <div class="parallax-header fl-wrap">
+                  <span>01.</span>
+                </div>
+                <img src="http://demowp.cththemes.com/balkon/wp-content/uploads/2016/10/2-5.jpg"
+                     class="attachment-balkon_folio_thumb size-balkon_folio_thumb wp-post-image" alt="">
+                <div class="parallax-text" :class="slotProps.item.type === 'left' ? 'left-pos' : 'right-pos'">
+                  <h3 class="card-title parallax-text parallax-layer" :style="{'transform': `translateZ(0px) translateY(${parallax}px)`}">{{ slotProps.item.status }}</h3>
+                  <a href="http://demowp.cththemes.com/balkon/portfolio/theatre-de-stoep/"
+                     class="btn float-btn flat-btn text-color my-3">Зарегистрироваться</a>
+                </div>
               </div>
-              <img src="http://demowp.cththemes.com/balkon/wp-content/uploads/2016/10/2-5.jpg"
-                   class="attachment-balkon_folio_thumb size-balkon_folio_thumb wp-post-image" alt="">
-              <div class="parallax-text" :class="slotProps.item.type === 'left' ? 'left-pos' : 'right-pos'" data-scrollax="properties: { translateY: '-250px' }">
-                <h3 class="card-title parallax-text parallax-layer">{{ slotProps.item.status }}</h3>
-                <a href="http://demowp.cththemes.com/balkon/portfolio/theatre-de-stoep/"
-                   class="btn float-btn flat-btn text-color my-3">Зарегистрироваться</a>
-
-              </div>
-            </div>
           </template>
         </Card>
       </template>
@@ -39,6 +38,7 @@ const events1 = ref([
   {status: 'Добавьте товары в корзину', icon: 'pi pi-shopping-cart', color: '#0C85FFFF', type : 'right'},
   {status: 'Оформите заказ', icon: 'pi pi-check-circle', color: '#0C85FFFF', type : 'left'},
 ]);
+let parallax = ref(123)
 
 
 </script>
@@ -71,8 +71,7 @@ const events1 = ref([
 
 .parallax-text h3 {
   font-size: 3.5rem;
-  font-weight: bold;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Roboto', sans-serif;
   position: relative;
   cursor: pointer;
 

@@ -10,7 +10,7 @@
       <template #header>
         <div class="grid grid-nogutter">
           <div class="col-6" style="text-align: left">
-            <Dropdown v-model="sortKey" :options="sortOptions" optionLabel="label" placeholder="Sort By Price"
+            <Dropdown v-model="sortKey" :options="sortOptions" optionLabel="label" placeholder="Сортировка цены"
                       @change="onSortChange($event)"/>
           </div>
           <div class="col-6" style="text-align: right">
@@ -87,9 +87,7 @@ const {state, isReady, isLoading} = useAsyncState(
     [],
 )
 
-console.log(state.value)
 const products: Ref<Product[]> = computed(() => state?.value?.data?.data)
-
 
 const onSortChange = (event: { value: { value: any; }; }) => {
   const value = event.value.value;
