@@ -197,6 +197,7 @@ const onSortChange = (event: { value: { value: any; }; }) => {
 
   .product-grid-item-content {
     text-align: left;
+    height: 25rem;
   }
 
   .product-price {
