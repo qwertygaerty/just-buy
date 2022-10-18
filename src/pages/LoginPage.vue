@@ -58,27 +58,20 @@
 import {auth} from "@/services/APIService";
 import type LoginInterface from "@/assets/helpers/interfaces/LoginInterface";
 import useVuelidate from "@vuelidate/core";
-import {reactive, ref} from "vue";
+import {reactive, ref, watch} from "vue";
 import type { Ref } from 'vue'
 import {email, required} from "@vuelidate/validators";
 import router from "@/router";
+import {useStorage} from "@vueuse/core";
 
-
-const state: LoginInterface = reactive({
-  email: '',
-  password: '',
-});
-
-const rules = {
-  email: {required, email},
-  password: {required},
-};
-
+const state: LoginInterface = reactive({email: '', password: '',});
+const rules = {email: {required, email}, password: {required},};
 const messages: Ref<{ severity: string, content: string }[]> = ref([]);
 const valid = useVuelidate(rules, state);
 const submitted = ref(false);
 let isSentData = ref(false)
 let isRequestFailed = ref(false)
+let userAuth = useStorage('justToken', '', localStorage)
 
 const login = async (isFormValid: boolean) => {
   submitted.value = true;
@@ -88,8 +81,16 @@ const login = async (isFormValid: boolean) => {
   isSentData.value = true;
   let res = await auth.login(state);
   isSentData.value = false;
-  res.status !== 200 ? messages.value.push({severity: 'error', content: res.message,}) : await router.push('/catalog');
+
+  if ( res.status === 200) {
+    userAuth.value = res.data.data.user_token
+    await router.push('/catalog');
+  } else {
+    messages.value.push({severity: 'error', content: res.message,})
+  }
 }
+
+watch(userAuth, userAuth => localStorage.setItem('justToken', userAuth.value))
 
 </script>
 

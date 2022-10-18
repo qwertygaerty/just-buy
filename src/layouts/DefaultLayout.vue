@@ -1,19 +1,39 @@
 <script setup lang="ts">
+import {computed} from "vue";
+import {useStorage} from '@vueuse/core'
 
-import {ref} from "vue";
+let userAuth = useStorage('justToken', '', localStorage)
 
-const items = ref([
-  {
-    label: 'Войти',
-    icon: 'pi pi-fw pi-sign-in layout-menuitem-icon',
-    to: 'login'
-  },
-  {
-    label: 'Зарегистрироваться',
-    icon: 'pi pi-fw pi-user-edit',
-    to: 'register'
-  },
-]);
+const items = computed(()=> {
+  if (userAuth.value?.length > 0) {
+    return [
+      {
+        label: 'Корзина',
+        icon: 'pi pi-fw pi-shopping-cart layout-menuitem-icon',
+        to: 'cart'
+      },
+      {
+        label: 'Выйти',
+        icon: 'pi pi-fw pi-sign-out layout-menuitem-icon',
+        command:() => userAuth.value = null
+      },
+    ]
+  } else {
+    return [
+      {
+        label: 'Войти',
+        icon: 'pi pi-fw pi-sign-in layout-menuitem-icon',
+        to: 'login'
+      },
+      {
+        label: 'Зарегистрироваться',
+        icon: 'pi pi-fw pi-user-edit',
+        to: 'register'
+      },
+    ]
+  }
+
+});
 
 </script>
 
@@ -27,16 +47,12 @@ const items = ref([
       </template>
     </Menubar>
 
-
     <div class="wrapper flex justify-content-center">
       <slot></slot>
     </div>
 
-
   </section>
-
 </template>
-
 
 <style scoped>
 .logo {
@@ -47,7 +63,7 @@ const items = ref([
   width: 60%;
 }
 
-@media (max-width: 1000px){
+@media (max-width: 1000px) {
   .wrapper {
     width: 100%;
   }

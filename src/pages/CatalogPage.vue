@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card w-full">
 
     <DataView :value="products" :layout="layout" :paginator="true" :rows="9" :sortOrder="sortOrder" :sortField="sortField" class="w-full">
 
@@ -31,7 +31,7 @@
 
             <div class="product-list-action">
               <span class="product-price">${{ slotProps.data.price }}</span>
-              <Button icon="pi pi-shopping-cart" label="Add to Cart"></Button>
+              <Button icon="pi pi-shopping-cart" label="Add to Cart" v-if="isAuth()"/>
             </div>
           </div>
         </div>
@@ -54,7 +54,7 @@
             </div>
             <div class="product-grid-item-bottom">
               <span class="product-price">${{ slotProps.data.price }}</span>
-              <Button icon="pi pi-shopping-cart"></Button>
+              <Button icon="pi pi-shopping-cart" v-if="isAuth()"/>
             </div>
           </div>
         </div>
@@ -70,6 +70,7 @@ import {useAsyncState} from "@vueuse/core";
 import {productRequest} from "@/services/APIService";
 import type Product from "@/assets/helpers/interfaces/Product";
 import SkeletonCard from "@/layouts/card/SkeletonCard.vue"
+import {isAuth} from "@/services/fetcher";
 
 const layout = ref('grid');
 const sortKey = ref();

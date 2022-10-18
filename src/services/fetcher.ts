@@ -1,4 +1,10 @@
 import axios from "axios";
+import {useStorage} from "@vueuse/core";
+
+export const isAuth = () => {
+    return useStorage('justToken', '', localStorage).value?.length > 0;
+}
+
 
 let fetcher = axios.create({
     baseURL: import.meta.env.VITE_APP_API_URL,
@@ -6,7 +12,6 @@ let fetcher = axios.create({
         'Content-Type': 'application/json',
     },
 });
-
 
 fetcher.interceptors.request.use(
     config => {
@@ -23,10 +28,6 @@ fetcher.interceptors.request.use(
 
     error => Promise.reject(error.response.data.error)
 );
-
-
-
-
 
 export default fetcher;
 
