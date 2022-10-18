@@ -13,6 +13,10 @@
 
       <Message severity="error" v-if="isRequestFailed">Неверная почта или пароль</Message>
 
+      <transition-group name="p-message" tag="div">
+        <Message v-for="msg of messages" :severity="msg.severity" :key="msg.id">{{msg.content}}</Message>
+      </transition-group>
+
       <div class="field">
         <div class="p-float-label p-input-icon-right">
           <i class="pi pi-envelope"/>
@@ -51,12 +55,14 @@
 </template>
 
 <script lang="ts" setup>
-import {auth} from "@/services/AuthService";
+import {auth} from "@/services/APIService";
 import type LoginInterface from "@/assets/helpers/interfaces/LoginInterface";
 import useVuelidate from "@vuelidate/core";
 import {reactive, ref} from "vue";
+import type { Ref } from 'vue'
 import {email, required} from "@vuelidate/validators";
 import router from "@/router";
+
 
 const state: LoginInterface = reactive({
   email: '',
@@ -68,6 +74,7 @@ const rules = {
   password: {required},
 };
 
+const messages: Ref<{ severity: string, content: string }[]> = ref([]);
 const valid = useVuelidate(rules, state);
 const submitted = ref(false);
 let isSentData = ref(false)
@@ -81,8 +88,7 @@ const login = async (isFormValid: boolean) => {
   isSentData.value = true;
   let res = await auth.login(state);
   isSentData.value = false;
-  res.status !== 200 ? isRequestFailed.value = true : await router.push('/catalog');
-
+  res.status !== 200 ? messages.value.push({severity: 'error', content: res.message,}) : await router.push('/catalog');
 }
 
 </script>

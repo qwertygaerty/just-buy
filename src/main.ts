@@ -13,13 +13,21 @@ import BlockUI from 'primevue/blockui';
 import Password from "primevue/password";
 import Tooltip from 'primevue/tooltip';
 import Message from "primevue/message";
+import Dialog from "primevue/dialog";
+import Divider from "primevue/divider";
+import Timeline from "primevue/timeline";
+import Card from "primevue/card";
+import DataView from 'primevue/dataview';
+import Dropdown from "primevue/dropdown";
+import DataViewLayoutOptions from "primevue/dataviewlayoutoptions";
+import Image from 'primevue/image';
+import Skeleton from 'primevue/skeleton';
 
 import './assets/css/main.css';
 import 'primevue/resources/themes/mdc-light-indigo/theme.css';
 import 'primevue/resources/primevue.min.css';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
-
 
 const app = createApp(App);
 
@@ -29,9 +37,17 @@ app.component('Menubar', Menubar);
 app.component('Password', Password);
 app.component('BlockUI', BlockUI);
 app.component('Message', Message);
+app.component('Dialog', Dialog);
+app.component('Divider', Divider);
+app.component('Timeline', Timeline);
+app.component('Card', Card);
+app.component('DataView', DataView);
+app.component('Dropdown', Dropdown);
+app.component('DataViewLayoutOptions', DataViewLayoutOptions);
+app.component('Image', Image);
+app.component('Skeleton', Skeleton);
 
 app.directive('tooltip', Tooltip);
-
 
 app.use(createPinia());
 app.use(router);
