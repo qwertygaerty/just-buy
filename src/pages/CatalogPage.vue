@@ -1,4 +1,6 @@
 <template>
+
+  <ScrollTop class="bg-primary-400"/>
   <div class="card w-full">
 
     <DataView :value="products" :layout="layout" :paginator="true" :rows="9" :sortOrder="sortOrder" :sortField="sortField" class="w-full">
@@ -109,8 +111,8 @@ const onSortChange = (event: { value: { value: any; }; }) => {
 </script>
 
 <style lang="scss" scoped>
+
 .card {
-  background: #ffffff;
   padding: 1rem;
   border-radius: 4px;
   margin-bottom: 2rem;

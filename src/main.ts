@@ -22,9 +22,11 @@ import Dropdown from "primevue/dropdown";
 import DataViewLayoutOptions from "primevue/dataviewlayoutoptions";
 import Image from 'primevue/image';
 import Skeleton from 'primevue/skeleton';
+import ScrollTop from 'primevue/scrolltop';
+import InputSwitch from 'primevue/inputswitch';
 
 import './assets/css/main.css';
-import 'primevue/resources/themes/mdc-light-indigo/theme.css';
+
 import 'primevue/resources/primevue.min.css';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
@@ -46,6 +48,8 @@ app.component('Dropdown', Dropdown);
 app.component('DataViewLayoutOptions', DataViewLayoutOptions);
 app.component('Image', Image);
 app.component('Skeleton', Skeleton);
+app.component('ScrollTop', ScrollTop);
+app.component('InputSwitch', InputSwitch);
 
 app.directive('tooltip', Tooltip);
 

@@ -2,6 +2,7 @@
 import {computed} from "vue";
 import {auth} from "@/services/APIService";
 import {useAuthStore} from "@/stores/auth";
+import {useDark, useToggle} from "@vueuse/core";
 
 let userAuth = useAuthStore();
 
@@ -38,6 +39,16 @@ const items = computed(() => {
     ]
   }
 });
+const isDark = useDark();
+const toggleDark = useToggle(isDark)
+
+if (isDark.value) {
+  import('primevue/resources/themes/mdc-dark-indigo/theme.css');
+} else {
+  import('primevue/resources/themes/mdc-light-indigo/theme.css');
+}
+
+
 </script>
 
 <template>
@@ -48,6 +59,12 @@ const items = computed(() => {
           <img alt="logo" src="../assets/images/just-buy-logo-cut.png" height="50" class="logo">
         </router-link>
       </template>
+
+      <template #end>
+        {{isDark}}
+        <InputSwitch v-model="isDark" @click="toggleDark" icon="pi pi-shopping-cart"  />
+      </template>
+
     </Menubar>
     <div class="wrapper flex justify-content-center">
       <slot></slot>
@@ -55,7 +72,8 @@ const items = computed(() => {
   </section>
 </template>
 
-<style scoped>
+<style>
+
 .logo {
   cursor: pointer;
 }
