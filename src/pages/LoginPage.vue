@@ -62,7 +62,7 @@ import {reactive, ref, watch} from "vue";
 import type { Ref } from 'vue'
 import {email, required} from "@vuelidate/validators";
 import router from "@/router";
-import {useStorage} from "@vueuse/core";
+import {useAuthStore} from "@/stores/auth";
 
 const state: LoginInterface = reactive({email: '', password: '',});
 const rules = {email: {required, email}, password: {required},};
@@ -71,7 +71,7 @@ const valid = useVuelidate(rules, state);
 const submitted = ref(false);
 let isSentData = ref(false)
 let isRequestFailed = ref(false)
-let userAuth = useStorage('justToken', '', localStorage)
+let userAuth = useAuthStore()
 
 const login = async (isFormValid: boolean) => {
   submitted.value = true;
@@ -82,14 +82,12 @@ const login = async (isFormValid: boolean) => {
   let res = await auth.login(state);
   isSentData.value = false;
   if ( res.status === 200) {
-    userAuth.value = res.data.data.user_token
+    userAuth.setToken(res.data.data.user_token);
     await router.push('/catalog');
   } else {
     messages.value.push({severity: 'error', content: res.message,})
   }
 }
-
-watch(userAuth, userAuth => localStorage.setItem('justToken', userAuth.value))
 
 </script>
 

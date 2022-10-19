@@ -1,15 +1,12 @@
 <script setup lang="ts">
 import {computed} from "vue";
-import {useStorage} from '@vueuse/core'
 import {auth} from "@/services/APIService";
+import {useAuthStore} from "@/stores/auth";
 
-let userAuth = useStorage('justToken', '', localStorage)
+let userAuth = useAuthStore();
 
 const items = computed(() => {
-
-  console.log(userAuth.value)
-
-  if (userAuth.value?.length > 0) {
+  if (userAuth.getToken().value?.length > 0) {
     return [
       {
         label: 'Корзина',
@@ -21,8 +18,9 @@ const items = computed(() => {
         icon: 'pi pi-fw pi-sign-out layout-menuitem-icon',
         command: async () => {
           await auth.logout();
-          userAuth.value = null;
-        }
+          userAuth.setToken('');
+        },
+        to: 'login'
       },
     ]
   } else {
@@ -39,9 +37,7 @@ const items = computed(() => {
       },
     ]
   }
-
 });
-
 </script>
 
 <template>
@@ -53,11 +49,9 @@ const items = computed(() => {
         </router-link>
       </template>
     </Menubar>
-
     <div class="wrapper flex justify-content-center">
       <slot></slot>
     </div>
-
   </section>
 </template>
 
@@ -65,15 +59,12 @@ const items = computed(() => {
 .logo {
   cursor: pointer;
 }
-
 .wrapper {
   width: 60%;
 }
-
 @media (max-width: 1000px) {
   .wrapper {
     width: 100%;
   }
 }
-
 </style>
