@@ -22,7 +22,7 @@
       <template #list="slotProps">
         <div class="col-12">
           <div class="product-list-item">
-            <Image src="https://random.imagecdn.app/1920/1080" alt="Image Text" preview/>
+            <Image :src="`https://random.imagecdn.app/1920/1080`" alt="Image Text" preview/>
 
             <div class="product-list-detail">
               <div class="product-name">{{ slotProps.data.name }}</div>
@@ -31,7 +31,7 @@
 
             <div class="product-list-action">
               <span class="product-price">${{ slotProps.data.price }}</span>
-              <Button icon="pi pi-shopping-cart" label="Add to Cart" v-if="false"/>
+              <Button icon="pi pi-shopping-cart" label="Add to Cart" v-if="isAuth"/>
             </div>
           </div>
         </div>
@@ -54,7 +54,7 @@
             </div>
             <div class="product-grid-item-bottom">
               <span class="product-price">${{ slotProps.data.price }}</span>
-              <Button icon="pi pi-shopping-cart" v-if="false"/>
+              <Button icon="pi pi-shopping-cart" v-if="isAuth"/>
             </div>
           </div>
         </div>
@@ -70,7 +70,10 @@ import {useAsyncState} from "@vueuse/core";
 import {productRequest} from "@/services/APIService";
 import type Product from "@/assets/helpers/interfaces/Product";
 import SkeletonCard from "@/layouts/card/SkeletonCard.vue"
+import {useAuthStore} from "@/stores/auth";
 
+
+let isAuth = useAuthStore().isAuth();
 const layout = ref('grid');
 const sortKey = ref();
 const sortOrder = ref();
