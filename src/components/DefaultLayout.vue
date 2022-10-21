@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed} from "vue";
+import {computed, defineAsyncComponent} from "vue";
 import {auth} from "@/services/APIService";
 import {useAuthStore} from "@/stores/auth";
 import {useDark, useToggle} from "@vueuse/core";
@@ -40,13 +40,7 @@ const items = computed(() => {
   }
 });
 const isDark = useDark();
-const toggleDark = useToggle(isDark)
-
-if (isDark.value) {
-  import('primevue/resources/themes/mdc-dark-indigo/theme.css');
-} else {
-  import('primevue/resources/themes/mdc-light-indigo/theme.css');
-}
+const toggleDark = useToggle(isDark);
 
 
 </script>
@@ -54,15 +48,18 @@ if (isDark.value) {
 <template>
   <section class="flex align-items-center flex-column gap-5">
     <Menubar :model="items" class="flex justify-content-between wrapper">
-      <template #start>
-        <router-link to="/">
-          <img alt="logo" src="../assets/images/just-buy-logo-cut.png" height="50" class="logo">
-        </router-link>
-      </template>
+      <template #start >
+        <div class="flex align-items-center">
+          <router-link to="/">
+            <img alt="logo" src="../assets/images/just-buy-logo-cut.png" height="50" class="logo">
+          </router-link>
 
-      <template #end>
-        {{isDark}}
-        <InputSwitch v-model="isDark" @click="toggleDark" icon="pi pi-shopping-cart"  />
+          <i class="pi pi-circle-fill text-yellow-500 pr-2" v-if="!isDark"></i>
+          <i class="pi pi-star-fill text-white-alpha-70 pr-2"  v-if="isDark"></i>
+
+          <InputSwitch v-model="isDark" @click="toggleDark" icon="pi pi-shopping-cart"  />
+        </div>
+
       </template>
 
     </Menubar>
@@ -85,4 +82,6 @@ if (isDark.value) {
     width: 100%;
   }
 }
+
+
 </style>
