@@ -24,12 +24,17 @@ import Image from 'primevue/image';
 import Skeleton from 'primevue/skeleton';
 import ScrollTop from 'primevue/scrolltop';
 import InputSwitch from 'primevue/inputswitch';
+import ToastService from 'primevue/toastservice';
+import Toast from 'primevue/toast';
+import DataTable from "primevue/datatable";
+import Column from "primevue/column";
+
 
 import './assets/css/main.css';
-
 import 'primevue/resources/primevue.min.css';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
+
 
 const app = createApp(App);
 
@@ -50,11 +55,15 @@ app.component('Image', Image);
 app.component('Skeleton', Skeleton);
 app.component('ScrollTop', ScrollTop);
 app.component('InputSwitch', InputSwitch);
+app.component('Toast', Toast);
+app.component('DataTable', DataTable);
+app.component('Column', Column);
 
 app.directive('tooltip', Tooltip);
 
 app.use(createPinia());
 app.use(router);
+app.use(ToastService);
 app.use(PrimeVue, {
     ripple: true, locale: localeRu
 },);

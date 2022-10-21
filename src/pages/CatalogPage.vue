@@ -1,19 +1,19 @@
 <template>
-
+  <Toast/>
   <ScrollTop class="bg-primary-400"/>
   <div class="card w-full">
 
-    <DataView :value="products" :layout="layout" :paginator="true" :rows="9" :sortOrder="sortOrder" :sortField="sortField" class="w-full">
+    <DataView :value="products" :layout="layout" :paginator="true" :rows="9" :sortOrder="sortOrder"
+              :sortField="sortField" class="w-full">
 
       <template #empty>
-        <SkeletonCard v-if="isLoading"  :number-of-skeleton="numberOfSkeleton"/>
+        <SkeletonCard v-if="isLoading" :number-of-skeleton="numberOfSkeleton"/>
       </template>
 
       <template #header>
         <div class="grid grid-nogutter">
           <div class="col-6" style="text-align: left">
-            <Dropdown v-model="sortKey" :options="sortOptions" optionLabel="label" placeholder="Сортировка цены"
-                      @change="onSortChange($event)"/>
+            <Dropdown v-model="sortKey" :options="sortOptions" optionLabel="label" placeholder="Сортировка цены" @change="onSortChange($event)"/>
           </div>
           <div class="col-6" style="text-align: right">
             <DataViewLayoutOptions v-model="layout"/>
@@ -22,44 +22,11 @@
       </template>
 
       <template #list="slotProps">
-        <div class="col-12">
-          <div class="product-list-item">
-            <Image :src="`https://random.imagecdn.app/1920/1080`" alt="Image Text" preview/>
-
-            <div class="product-list-detail">
-              <div class="product-name">{{ slotProps.data.name }}</div>
-              <div class="product-description">{{ slotProps.data.description.slice(0, 80) }}{{slotProps.data.description.length > 80 ? '...' : ''}}</div>
-            </div>
-
-            <div class="product-list-action">
-              <span class="product-price">${{ slotProps.data.price }}</span>
-              <Button icon="pi pi-shopping-cart" label="Add to Cart" v-if="isAuth"/>
-            </div>
-          </div>
-        </div>
+        <CatalogCard :product="slotProps.data" :type="'list'" @add-to-cart="addToast"/>
       </template>
 
       <template #grid="slotProps">
-
-        <div v-if="!isLoading" class="col-12 md:col-4 p-0">
-          <div class="product-grid-item card">
-            <div class="product-grid-item-top">
-              <div>
-                <i class="pi pi-tag product-category-icon"></i>
-              </div>
-            </div>
-            <div class="product-grid-item-content">
-              <Image src="https://random.imagecdn.app/500/150" class="card-image" alt="Image Text" preview/>
-              <div class="product-name">{{ slotProps.data.name }}</div>
-              <div class="product-description">{{ slotProps.data.description.slice(0, 120) }}{{slotProps.data.description.length > 120 ? '...' : ''}}</div>
-
-            </div>
-            <div class="product-grid-item-bottom">
-              <span class="product-price">${{ slotProps.data.price }}</span>
-              <Button icon="pi pi-shopping-cart" v-if="isAuth"/>
-            </div>
-          </div>
-        </div>
+        <CatalogCard :product="slotProps.data" :type="'grid'" @add-to-cart="addToast"/>
       </template>
     </DataView>
   </div>
@@ -71,28 +38,21 @@ import {computed, ref} from "vue";
 import {useAsyncState} from "@vueuse/core";
 import {productRequest} from "@/services/APIService";
 import type Product from "@/assets/helpers/interfaces/Product";
-import SkeletonCard from "@/layouts/card/SkeletonCard.vue"
-import {useAuthStore} from "@/stores/auth";
+import SkeletonCard from "@/components/card/SkeletonCard.vue"
+import CatalogCard from "@/components/card/CatalogCard.vue"
+import {useToast} from "primevue/usetoast";
 
-
-let isAuth = useAuthStore().isAuth();
 const layout = ref('grid');
 const sortKey = ref();
 const sortOrder = ref();
 const sortField = ref();
-const numberOfSkeleton = 9
+const numberOfSkeleton = 9;
 const sortOptions = ref([
   {label: 'Цена по убыванию', value: '!price'},
   {label: 'Цена по возрастанию', value: 'price'},
 ]);
-
-const {state, isReady, isLoading} = useAsyncState(
-    productRequest.get(),
-    [],
-)
-
-const products: Ref<Product[]> = computed(() => state?.value?.data?.data)
-
+const {state, isReady, isLoading} = useAsyncState(productRequest.get(), []);
+const products: Ref<Product[]> = computed(() => state?.value?.data?.data);
 const onSortChange = (event: { value: { value: any; }; }) => {
   const value = event.value.value;
   const sortValue = event.value;
@@ -108,38 +68,50 @@ const onSortChange = (event: { value: { value: any; }; }) => {
   }
 };
 
+const toast = useToast();
+const addToast = (toastData: any) => {
+
+  let {res, product} = toastData;
+
+  let toastMessage = {severity: 'error', summary: 'Что-то пошло не так!', detail: res.message, life: 3000}
+
+  if (res.status === 201) {
+    toastMessage.severity = 'success';
+    toastMessage.summary = 'Товар добавлен в корзину';
+    toastMessage.detail = product.name;
+  }
+
+  toast.add(toastMessage);
+}
 </script>
 
 <style lang="scss" scoped>
+::v-deep(.product-grid-item) {
+  margin: .5rem;
+  border: 1px solid var(--surface-border);
 
-.card {
-  padding: 1rem;
-  border-radius: 4px;
-  margin-bottom: 2rem;
-}
+  .product-grid-item-top,
+  .product-grid-item-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 
-.p-dropdown {
-  width: 14rem;
-  font-weight: normal;
-}
+  img {
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    width: 100%;
+    height: 12rem;
+  }
 
-.product-name {
-  font-size: 1.5rem;
-  font-weight: 700;
-}
+  .product-grid-item-content {
+    text-align: left;
+    height: 25rem;
+  }
 
-.product-description {
-  margin: 0 0 1rem 0;
-}
-
-.product-category-icon {
-  vertical-align: middle;
-  margin-right: .5rem;
-}
-
-.product-category {
-  font-weight: 600;
-  vertical-align: middle;
+  .product-price {
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
 }
 
 ::v-deep(.product-list-item) {
@@ -152,7 +124,6 @@ const onSortChange = (event: { value: { value: any; }; }) => {
   img {
     width: 20rem;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-    margin-right: 2rem;
   }
 
   .product-list-detail {
@@ -180,64 +151,4 @@ const onSortChange = (event: { value: { value: any; }; }) => {
   }
 }
 
-::v-deep(.product-grid-item) {
-  margin: .5rem;
-  border: 1px solid var(--surface-border);
-
-  .product-grid-item-top,
-  .product-grid-item-bottom {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  img {
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-    margin: 2rem 0;
-    width: 100%;
-    height: 12rem;
-  }
-
-  .product-grid-item-content {
-    text-align: left;
-    height: 25rem;
-  }
-
-  .product-price {
-    font-size: 1.5rem;
-    font-weight: 600;
-  }
-}
-
-@media screen and (max-width: 576px) {
-  .product-list-item {
-    flex-direction: column;
-    align-items: center;
-
-    img {
-      margin: 2rem 0;
-    }
-
-    .product-list-detail {
-      text-align: center;
-    }
-
-    .product-price {
-      align-self: center;
-    }
-
-    .product-list-action {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .product-list-action {
-      margin-top: 2rem;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-    }
-  }
-}
 </style>

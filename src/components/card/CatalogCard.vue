@@ -34,7 +34,7 @@
       </div>
 
       <div class="product-list-action">
-        <span class="product-price">${{ product.price }}</span>
+        <span class="product-price">{{ product.price }}</span>
         <Button icon="pi pi-shopping-cart" label="Add to Cart" v-if="isAuth" @click="addToCart(product)"/>
       </div>
     </div>

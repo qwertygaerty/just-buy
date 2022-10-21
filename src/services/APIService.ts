@@ -38,6 +38,33 @@ export const productRequest = {
     },
 }
 
+export const CartRequest = {
+    async add(product_id: number) {
+        return await fetcher.post(`cart/${product_id}`).then((res) => {
+            return res
+        }).catch((err) => {
+            return err.response.data.error
+        });
+    },
+
+    async del(product_id: number) {
+        return await fetcher.delete(`cart/${product_id}`).then((res) => {
+            return res
+        }).catch((err) => {
+            return err.response.data.error
+        });
+    },
+
+    async get() {
+        return await fetcher.get(`cart`).then((res) => {
+            return res
+        }).catch((err) => {
+            return err.response.data.error
+        });
+    },
+
+}
+
 
 
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, defineAsyncComponent} from "vue";
+import {computed} from "vue";
 import {auth} from "@/services/APIService";
 import {useAuthStore} from "@/stores/auth";
 import {useDark, useToggle} from "@vueuse/core";
@@ -10,9 +10,19 @@ const items = computed(() => {
   if (userAuth.getToken().value?.length > 0) {
     return [
       {
+        label: 'Каталог',
+        icon: 'pi pi-fw pi-th-large',
+        to: 'catalog'
+      },
+      {
         label: 'Корзина',
         icon: 'pi pi-fw pi-shopping-cart layout-menuitem-icon',
         to: 'cart'
+      },
+      {
+        label: 'Оформленные заказы',
+        icon: 'pi pi-fw pi-shopping-bag layout-menuitem-icon',
+        to: 'orders'
       },
       {
         label: 'Выйти',
@@ -26,6 +36,11 @@ const items = computed(() => {
     ]
   } else {
     return [
+      {
+        label: 'Каталог',
+        icon: 'pi pi-fw pi-th-large',
+        to: 'catalog'
+      },
       {
         label: 'Войти',
         icon: 'pi pi-fw pi-sign-in layout-menuitem-icon',

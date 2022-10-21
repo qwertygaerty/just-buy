@@ -1,26 +1,53 @@
 <template>
-  <div class="w-full flex flex-wrap">
-    <div v-for="skeleton in props.numberOfSkeleton " :key="skeleton" class="col-12 md:col-4 p-0">
-      <div class="product-grid-item card product-grid-item-skeleton">
-        <div class="product-grid-item-top">
-          <Skeleton shape="circle" size="1rem" borderRadius="20px"/>
-        </div>
+  <div class="card p-fluid w-full p-0">
+    <DataTable :value="props.numberOfSkeleton" responsiveLayout="stack" :paginator="false" :rows="5" removableSort breakpoint="960px">
+      <Column class="w-1">
+        <template #body>
+          <Skeleton width="100%" height="7rem" class="product-image"></Skeleton>
+        </template>
+      </Column>
+      <Column field="name">
+        <template #header>
+          <Skeleton width="35%" class="my-2" height="1.2rem"></Skeleton>
+        </template>
 
-        <div class="product-grid-item-content">
-          <Skeleton width="100%" height="12rem" class="my-5"></Skeleton>
-          <Skeleton width="50%" class="my-2" height="1.2rem"></Skeleton>
+        <template #body>
+          <Skeleton width="100%" class="my-2" height="1.2rem"></Skeleton>
+        </template>
+      </Column>
+
+      <Column field="description" class="w-4 gap-4">
+        <template #header>
+          <div>
+            <Skeleton width="5rem" class="my-2" height="1.2rem"></Skeleton>
+          </div>
+        </template>
+        <template #body>
+          <div class="table-description">
+            <Skeleton width="100%" class="my-2" height="0.7rem"></Skeleton>
+            <Skeleton width="70%" class="my-2" height="0.7rem"></Skeleton>
+            <Skeleton width="40%" class="my-2" height="0.7rem"></Skeleton>
+          </div>
+        </template>
+      </Column>
+      <Column field="price" >
+        <template  #header>
+          <Skeleton width="35%" class="my-2" height="1.2rem"></Skeleton>
+        </template>
+        <template #body>
+          <Skeleton width="100%" height=".7rem" class="my-1"></Skeleton>
+        </template>
+      </Column>
+      <template #footer>
+        <div class="flex justify-content-between gap-3">
           <Skeleton width="25%" class="my-2" height="1.2rem"></Skeleton>
-          <Skeleton height=".7rem" class="my-1"></Skeleton>
-          <Skeleton width="80%" height=".7rem" class="my-1"></Skeleton>
-          <Skeleton width="60%" height=".7rem" class="my-1"></Skeleton>
-        </div>
-        <div class="product-grid-item-bottom">
           <Skeleton width="25%" class="my-2" height="1.2rem"></Skeleton>
-          <Skeleton shape="circle" size="2rem" borderRadius="4px"/>
+          <Skeleton width="25%" class="my-2" height="1.7rem"></Skeleton>
         </div>
-      </div>
-    </div>
+      </template>
+    </DataTable>
   </div>
+
 </template>
 
 <script setup lang="ts">
@@ -56,6 +83,13 @@ const props = defineProps({
 .product-grid-item-skeleton {
   box-shadow: none;
   min-width: 20rem;
+}
+
+
+@media screen and (max-width: 576px) {
+  .product-image {
+    width: 100%;
+  }
 }
 
 </style>

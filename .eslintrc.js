@@ -11,7 +11,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2020,
     parser: 'espree', // <-
-    sourceType: 'module'
+    sourceType: 'module',
   },
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
