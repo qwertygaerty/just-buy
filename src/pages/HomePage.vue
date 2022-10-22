@@ -1,27 +1,26 @@
 <template>
-  <div class="card">
-    <Timeline :value="events1" align="" class="customized-timeline">
+  <div class="card w-full">
+    <Timeline :value="events1" align="alternate" class="customized-timeline">
       <template #marker="slotProps">
-        <span class="custom-marker shadow-2" :style="{color: slotProps.item.color}"><i
-            :class="slotProps.item.icon"></i></span>
+                    <span class="custom-marker shadow-2" :style="{backgroundColor: slotProps.item.color}">
+                        <i :class="slotProps.item.icon"></i>
+                    </span>
       </template>
-
-
-      <template #content="slotProps" >
-        <Card>
-          <template #content>
-              <div class="parallax-item fl-wrap " >
-                <div class="parallax-header fl-wrap">
-                  <span>01.</span>
-                </div>
-                <img src="http://demowp.cththemes.com/balkon/wp-content/uploads/2016/10/2-5.jpg"
-                     class="attachment-balkon_folio_thumb size-balkon_folio_thumb wp-post-image" alt="">
-                <div class="parallax-text" :class="slotProps.item.type === 'left' ? 'left-pos' : 'right-pos'">
-                  <h3 class="card-title parallax-text parallax-layer" :style="{'transform': `translateZ(0px) translateY(${parallax}px)`}">{{ slotProps.item.status }}</h3>
-                  <a href="http://demowp.cththemes.com/balkon/portfolio/theatre-de-stoep/"
-                     class="btn float-btn flat-btn text-color my-3">Зарегистрироваться</a>
-                </div>
+      <template #content="slotProps">
+        <Card class="w-full flex align-items-center justify-content-center">
+          <template #title>
+            <div class="parallax-item fl-wrap ">
+              <div class="parallax-header fl-wrap">
+                <span>{{ slotProps.item.num }}.</span>
               </div>
+              <div class="parallax-text" :class="slotProps.item.type === 'left' ? 'left-pos' : 'right-pos'">
+                <h3 class="card-title parallax-text parallax-layer">{{ slotProps.item.status }}</h3>
+              </div>
+            </div>
+          </template>
+          <template #content>
+            <img :src="slotProps.item.src"
+                 class="w-full" alt="">
           </template>
         </Card>
       </template>
@@ -31,15 +30,52 @@
 
 
 <script setup lang="ts">
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 
 const events1 = ref([
-  {status: 'Зарегистрируйтесь', icon: 'pi pi-user', color: '#3F51B5FF', image: 'game-controller.jpg', type : 'left'},
-  {status: 'Добавьте товары в корзину', icon: 'pi pi-shopping-cart', color: '#0C85FFFF', type : 'right'},
-  {status: 'Оформите заказ', icon: 'pi pi-check-circle', color: '#0C85FFFF', type : 'left'},
+  {
+    status: 'Зарегистрируйтесь',
+    icon: 'pi pi-user',
+    color: 'var(--primary-color)',
+    image: 'game-controller.jpg',
+    type: 'left',
+    src: '/src/assets/images/register.png',
+    num: '01',
+  },
+  {
+    status: 'Добавьте товары в корзину',
+    icon: 'pi pi-shopping-cart',
+    color: 'var(--primary-color)',
+    type: 'right',
+    src: '/src/assets/images/add-to-cart.png',
+    num: '02',
+  },
+  {
+    status: 'Оформите заказ',
+    icon: 'pi pi-check-circle',
+    color: 'var(--primary-color)',
+    type: 'left',
+    src: '/src/assets/images/create-order.png',
+    num: '03',
+  },
 ]);
-let parallax = ref(123)
 
+onMounted(() => {
+  window.addEventListener("scroll", () => {
+    console.log(123)
+
+    let elements = Array.from(document.getElementsByClassName('parallax-text'))
+
+    elements.forEach((el) => {
+      let win = window.scrollY;
+      el.style.transform = `translate(0,${-win * 0.2}px)`
+
+      console.log(el.style.transform, win)
+
+    })
+
+  })
+})
 
 </script>
 
@@ -51,26 +87,27 @@ let parallax = ref(123)
 
 .parallax-item img {
   height: auto;
-  opacity: 0.7;
+  opacity: 0.9;
 }
+
+
 
 .parallax-text {
   position: absolute;
   bottom: 20%;
   z-index: 10;
-
 }
 
 .parallax-text.right-pos {
-  right: -18rem;
+  right: -1rem;
 }
 
 .parallax-text.left-pos {
-  left: -5rem;
+  left: 1rem;
 }
 
 .parallax-text h3 {
-  font-size: 3.5rem;
+  font-size: 3.0rem;
   font-family: 'Roboto', sans-serif;
   position: relative;
   cursor: pointer;
@@ -84,7 +121,7 @@ let parallax = ref(123)
   width: 4rem;
   height: 0.3rem;
   left: 0;
-  background: #0C85FFFF;
+  background: var(--primary-color);
 }
 
 .parallax-text h3:after {
@@ -94,13 +131,13 @@ let parallax = ref(123)
   bottom: -10px;
   width: 1px;
   -webkit-transition: all 2000ms cubic-bezier(.19, 1, .22, 1) 0ms;
-  right: -40px;
-  background: rgba(12, 133, 255, 0.34);
+  right: -2rem;
+  background: var(--text-color-secondary);
   z-index: -1;
 }
 
 .parallax-text h3:hover:after {
-  width: 120%;
+  width: 110%;
   opacity: 0.4;
 }
 
@@ -116,7 +153,6 @@ let parallax = ref(123)
 }
 
 .parallax-header {
-  padding-bottom: 2rem;
   display: inline-block;
 }
 
@@ -129,19 +165,8 @@ let parallax = ref(123)
   position: relative;
 }
 
-.parallax-header span:before {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 60px;
-  width: 150px;
-  background: #eee;
-  height: 1px;
-}
-
 .parallax-header ul li {
   float: left;
-  padding-left: 15px;
   text-align: left;
 }
 

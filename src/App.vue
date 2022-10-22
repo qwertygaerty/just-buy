@@ -20,6 +20,10 @@ import DefaultLayout from '@/components/DefaultLayout.vue'</script>
     border: 1px solid hsla(0,0%,100%,.12) !important;
   }
 
+  .parallax-text {
+    color: var(--gray-50);
+  }
+
 }
 
 
