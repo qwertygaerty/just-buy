@@ -55,7 +55,7 @@
 </template>
 
 <script lang="ts" setup>
-import {auth} from "@/services/APIService";
+import {Auth} from "@/services/APIService";
 import type LoginInterface from "@/assets/helpers/interfaces/LoginInterface";
 import useVuelidate from "@vuelidate/core";
 import {reactive, ref, watch} from "vue";
@@ -75,11 +75,9 @@ let userAuth = useAuthStore()
 
 const login = async (isFormValid: boolean) => {
   submitted.value = true;
-
   if (!isFormValid) return;
-
   isSentData.value = true;
-  let res = await auth.login(state);
+  let res = await Auth.login(state);
   isSentData.value = false;
   if ( res.status === 200) {
     userAuth.setToken(res.data.data.user_token);

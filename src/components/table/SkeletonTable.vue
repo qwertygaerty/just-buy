@@ -1,7 +1,7 @@
 <template>
   <div class="card p-fluid w-full p-0">
     <DataTable :value="props.numberOfSkeleton" responsiveLayout="stack" :paginator="false" :rows="5" removableSort breakpoint="960px">
-      <Column class="w-1">
+      <Column class="w-4">
         <template #body>
           <Skeleton width="100%" height="7rem" class="product-image"></Skeleton>
         </template>

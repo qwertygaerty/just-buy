@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {computed} from "vue";
-import {auth} from "@/services/APIService";
+import {Auth} from "@/services/APIService";
 import {useAuthStore} from "@/stores/auth";
 import {useDark, useToggle} from "@vueuse/core";
 
@@ -28,7 +28,7 @@ const items = computed(() => {
         label: 'Выйти',
         icon: 'pi pi-fw pi-sign-out layout-menuitem-icon',
         command: async () => {
-          await auth.logout();
+          await Auth.logout();
           userAuth.setToken('');
         },
         to: 'login'

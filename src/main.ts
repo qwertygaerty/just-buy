@@ -28,12 +28,15 @@ import ToastService from 'primevue/toastservice';
 import Toast from 'primevue/toast';
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
-
+import Accordion from "primevue/accordion";
+import AccordionTab from "primevue/accordiontab";
+import OrderList from "primevue/orderlist";
 
 import './assets/css/main.css';
 import 'primevue/resources/primevue.min.css';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
+
 
 
 const app = createApp(App);
@@ -58,6 +61,9 @@ app.component('InputSwitch', InputSwitch);
 app.component('Toast', Toast);
 app.component('DataTable', DataTable);
 app.component('Column', Column);
+app.component('Accordion', Accordion);
+app.component('AccordionTab', AccordionTab);
+app.component('OrderList', OrderList);
 
 app.directive('tooltip', Tooltip);
 

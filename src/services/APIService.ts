@@ -3,7 +3,7 @@ import type LoginInterface from "@/assets/helpers/interfaces/LoginInterface";
 import type SignUpInterface from "@/assets/helpers/interfaces/SignUpInterface";
 
 
-export const auth = {
+export const Auth = {
     async login(model: LoginInterface) {
         return await fetcher.post("login", model).then((res) => {
             return res
@@ -28,7 +28,7 @@ export const auth = {
 
 }
 
-export const productRequest = {
+export const ProductRequest = {
     async get() {
         return await fetcher.get("products",).then((res) => {
             return res
@@ -47,7 +47,7 @@ export const CartRequest = {
         });
     },
 
-    async del(product_id: number) {
+    async remove(product_id: number) {
         return await fetcher.delete(`cart/${product_id}`).then((res) => {
             return res
         }).catch((err) => {
@@ -57,6 +57,23 @@ export const CartRequest = {
 
     async get() {
         return await fetcher.get(`cart`).then((res) => {
+            return res
+        }).catch((err) => {
+            return err.response.data.error
+        });
+    },
+}
+
+export const OrderRequest = {
+    async create() {
+        return await fetcher.post(`order`).then((res) => {
+            return res
+        }).catch((err) => {
+            return err.response.data.error
+        });
+    },
+    async get() {
+        return await fetcher.get(`order`).then((res) => {
             return res
         }).catch((err) => {
             return err.response.data.error

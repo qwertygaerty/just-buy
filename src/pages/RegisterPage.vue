@@ -86,7 +86,7 @@
 </template>
 
 <script setup lang="ts">
-import {auth} from "@/services/APIService";
+import {Auth} from "@/services/APIService";
 import {reactive, ref} from 'vue';
 import {email, minLength, required} from "@vuelidate/validators";
 import {useVuelidate} from "@vuelidate/core";
@@ -120,10 +120,10 @@ const signup = async (isFormValid: boolean) => {
   if (!isFormValid) return;
 
   isSentData.value = true;
-  let res = await auth.signup(state);
+  let res = await Auth.signup(state);
   isSentData.value = false;
 
-  res.status === 201 ? toggleDialog() : console.log(123);
+  if (res.status === 201) toggleDialog();
 
 }
 

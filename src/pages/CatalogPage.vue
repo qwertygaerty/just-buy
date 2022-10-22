@@ -36,7 +36,7 @@
 import type {Ref} from "vue";
 import {computed, ref} from "vue";
 import {useAsyncState} from "@vueuse/core";
-import {productRequest} from "@/services/APIService";
+import {ProductRequest} from "@/services/APIService";
 import type Product from "@/assets/helpers/interfaces/Product";
 import SkeletonCard from "@/components/card/SkeletonCard.vue"
 import CatalogCard from "@/components/card/CatalogCard.vue"
@@ -51,7 +51,7 @@ const sortOptions = ref([
   {label: 'Цена по убыванию', value: '!price'},
   {label: 'Цена по возрастанию', value: 'price'},
 ]);
-const {state, isReady, isLoading} = useAsyncState(productRequest.get(), []);
+const {state, isReady, isLoading} = useAsyncState(ProductRequest.get(), []);
 const products: Ref<Product[]> = computed(() => state?.value?.data?.data);
 const onSortChange = (event: { value: { value: any; }; }) => {
   const value = event.value.value;
@@ -73,9 +73,9 @@ const addToast = (toastData: any) => {
 
   let {res, product} = toastData;
 
-  let toastMessage = {severity: 'error', summary: 'Что-то пошло не так!', detail: res.message, life: 3000}
+  let toastMessage = {severity: 'error', summary: 'Что-то пошло не так!', detail: res?.message, life: 3000}
 
-  if (res.status === 201) {
+  if (res?.status === 201) {
     toastMessage.severity = 'success';
     toastMessage.summary = 'Товар добавлен в корзину';
     toastMessage.detail = product.name;
