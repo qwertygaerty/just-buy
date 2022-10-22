@@ -34,7 +34,7 @@
                 <i class="pi pi-tag product-category-icon"></i>
               </div>
               <div class="product-list-detail">
-                <h4 class="mb-2">Кол-во: {{ slotProps.item.count }}</h4>
+                <h4 class="mb-2">Количество: {{ slotProps.item.count }}</h4>
               </div>
               <div class="product-list-action">
                 <h4 class="mb-2">${{ slotProps.item.price * slotProps.item.count }}</h4>
