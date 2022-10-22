@@ -14,7 +14,9 @@
                 <span>{{ slotProps.item.num }}.</span>
               </div>
               <div class="parallax-text" :class="slotProps.item.type === 'left' ? 'left-pos' : 'right-pos'">
-                <h3 class="card-title parallax-text parallax-layer">{{ slotProps.item.status }}</h3>
+                <router-link to="register" style="text-decoration: none">
+                  <h3 class="card-title parallax-text parallax-layer" >{{ slotProps.item.status }}</h3>
+                </router-link>
               </div>
             </div>
           </template>
@@ -89,8 +91,6 @@ onMounted(() => {
   height: auto;
   opacity: 0.9;
 }
-
-
 
 .parallax-text {
   position: absolute;
