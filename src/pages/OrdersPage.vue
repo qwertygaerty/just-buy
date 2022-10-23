@@ -39,7 +39,7 @@
             <div class="product-item">
               <div class="image-container">
                 <img
-                  :src="images[Math.floor(images.length*slotProps.item.id/100)]"
+                  :src="images[Math.floor(images.length*slotProps.item.id/110)]"
                   :alt="slotProps.item.name"
                 >
               </div>

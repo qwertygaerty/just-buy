@@ -45,7 +45,7 @@
         <CatalogCard
           :product="slotProps.data"
           :type="'list'"
-          :image="images[Math.floor(images.length*slotProps.data.id/100)]"
+          :image="images[Math.floor(images.length*slotProps.data.id/110)]"
           @add-to-cart="addToast"
         />
       </template>
@@ -54,7 +54,7 @@
         <CatalogCard
           :product="slotProps.data"
           :type="'grid'"
-          :image="images[Math.floor(images.length*slotProps.data.id/100)]"
+          :image="images[Math.floor(images.length*slotProps.data.id/110)]"
           @add-to-cart="addToast"
         />
       </template>
@@ -136,6 +136,7 @@ onMounted(()=>getImage())
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     width: 100%;
     height: 12rem;
+    object-fit: cover !important;
   }
 
   .product-grid-item-content {

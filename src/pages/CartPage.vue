@@ -20,7 +20,7 @@
       <Column header="">
         <template #body="slotProps">
           <img
-            :src="images[Math.floor(images.length*slotProps.data.product_id/100)]"
+            :src="images[Math.floor(images.length*slotProps.data.product_id/110)]"
             alt="image"
             class="product-image"
           >
