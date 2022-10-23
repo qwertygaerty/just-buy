@@ -7,6 +7,10 @@ ENV PATH /app/node_modules/.bin:$PATH
 # install and cache app dependencies
 COPY package.json /app/package.json
 
+ARG VITE_APP_API_URL="https://jurapro.bhuser.ru/api-shop"
+RUN echo "VITE_APP_API_URL=${VUE_APP_API_URL}" > .env
+
+
 RUN npm install --silent
 COPY . /app
 RUN npm run build
