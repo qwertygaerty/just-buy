@@ -32,8 +32,21 @@ npm install
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+### Compile and Minify for Production
 
 ```sh
 npm run build
 ```
+
+## Docker prod
+
+```sh
+docker-compose -f docker-compose-prod.yml up -d --build
+```
+
+## Docker dev
+
+```sh
+docker-compose -f docker-compose.yml up -d --build
+```
+
