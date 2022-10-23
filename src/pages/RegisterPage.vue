@@ -3,17 +3,15 @@
     <Dialog header="Вы успешно зарегистрировались!" v-model:visible="showMessage"
             :breakpoints="{'960px': '75vw', '640px': '90vw'}"
             :style="{width: '30vw'}" :modal="true" position="top">
-
-      <p :style="{lineHeight: 1.5}">
+      <div class="flex align-items-center">
         Перед началом работы
-        <router-link to="/login">Войдите</router-link>
-      </p>
-
-      <template #footer>
-
-      </template>
+        <router-link to="/login">
+          <Button class="p-button-link">
+            Войдите
+          </Button>
+        </router-link>
+      </div>
     </Dialog>
-
 
     <div class="flex justify-content-center ">
       <div class="surface-card w-full">
@@ -21,8 +19,13 @@
           <img src="../assets/images/just-buy-logo-cut.png" alt="Image" height="50" class="mb-3">
           <div class="text-3xl mb-3">Регистрация</div>
         </div>
-
         <div class="p-fluid">
+
+
+          <transition-group name="p-message" tag="div">
+            <Message v-for="msg of messages" :severity="msg.severity" :key="msg.id">{{ msg.content }}</Message>
+          </transition-group>
+
 
           <div class="field">
             <div class="p-float-label">
@@ -87,6 +90,7 @@
 
 <script setup lang="ts">
 import {Auth} from "@/services/APIService";
+import type {Ref} from 'vue';
 import {reactive, ref} from 'vue';
 import {email, minLength, required} from "@vuelidate/validators";
 import {useVuelidate} from "@vuelidate/core";
@@ -97,7 +101,8 @@ const rules = {fio: {required}, email: {required, email}, password: {required, m
 
 const submitted = ref(false);
 const showMessage = ref(false);
-let isSentData = ref(false);
+const isSentData = ref(false);
+const messages: Ref<{ severity: string, content: string }[]> = ref([]);
 
 const v$ = useVuelidate(rules, state);
 const resetForm = () => {
@@ -116,20 +121,24 @@ const toggleDialog = () => {
 
 const signup = async (isFormValid: boolean) => {
   submitted.value = true;
-
   if (!isFormValid) return;
-
   isSentData.value = true;
   let res = await Auth.signup(state);
   isSentData.value = false;
-
-  if (res.status === 201) toggleDialog();
-
+  if (res.status === 201) {
+    toggleDialog()
+  } else {
+    messages.value.push({severity: 'error', content: res.errors.email[0],})
+  }
 }
 
 </script>
 
 <style lang="scss" scoped>
-
-
+.dark {
+  .surface-card {
+    background: #1e1e1e !important;
+    color: white;
+  }
+}
 </style>

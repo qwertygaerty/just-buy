@@ -1,33 +1,58 @@
 <template>
-  <div v-if="type==='grid'" class="col-12 md:col-4 p-0">
+  <div
+    v-if="type==='grid'"
+    class="col-12 md:col-4 p-0"
+  >
     <div class="product-grid-item card">
       <div class="product-grid-item-top">
         <div>
-          <i class="pi pi-tag product-category-icon"></i>
+          <i class="pi pi-tag product-category-icon" />
         </div>
       </div>
       <div class="product-grid-item-content">
-        <Image  src="https://random.imagecdn.app/500/150" class="card-image w-full" alt="Image Text" preview/>
-        <div class="product-name">{{ product.name }}</div>
-        <div class="product-description">{{
+        <Image 
+          :src="image"
+          class="card-image w-full"
+          alt="Image Text"
+          preview
+        />
+        <div class="product-name">
+          {{ product.name }}
+        </div>
+        <div class="product-description">
+          {{
             product.description.slice(0, 120)
           }}{{ product.description.length > 120 ? '...' : '' }}
         </div>
-
       </div>
       <div class="product-grid-item-bottom">
         <span class="product-price">${{ product.price }}</span>
-        <Button icon="pi pi-shopping-cart" v-if="isAuth" @click="addToCart(product)"/>
+        <Button
+          v-if="isAuth"
+          icon="pi pi-shopping-cart"
+          @click="addToCart(product)"
+        />
       </div>
     </div>
   </div>
-  <div v-if="type==='list'" class="col-12">
+  <div
+    v-if="type==='list'"
+    class="col-12"
+  >
     <div class="product-list-item">
-      <Image class="card-image" src="https://random.imagecdn.app/500/150" alt="Image Text"  preview/>
+      <Image
+        class="card-image"
+        :src="image"
+        alt="Image Text"
+        preview
+      />
 
       <div class="product-list-detail">
-        <div class="product-name">{{ product.name }}</div>
-        <div class="product-description">{{
+        <div class="product-name">
+          {{ product.name }}
+        </div>
+        <div class="product-description">
+          {{
             product.description.slice(0, 80)
           }}{{ product.description.length > 80 ? '...' : '' }}
         </div>
@@ -35,7 +60,12 @@
 
       <div class="product-list-action">
         <span class="product-price">{{ product.price }}</span>
-        <Button icon="pi pi-shopping-cart" label="Add to Cart" v-if="isAuth" @click="addToCart(product)"/>
+        <Button
+          v-if="isAuth"
+          icon="pi pi-shopping-cart"
+          label="Add to Cart"
+          @click="addToCart(product)"
+        />
       </div>
     </div>
   </div>
@@ -48,7 +78,7 @@ import {useAuthStore} from "@/stores/auth";
 
 const isAuth = useAuthStore().isAuth();
 
-defineProps<{ product: Product; type?: string; }>()
+defineProps<{ product: Product; type?: string; image: string }>()
 const emit = defineEmits(['addToCart'])
 const addToCart = async (product: Product) => {
   const res = await CartRequest.add(product.id);
@@ -96,7 +126,6 @@ const addToCart = async (product: Product) => {
   .product-list-item {
     flex-direction: column;
     align-items: center;
-
     img {
       margin: 2rem 0;
     }
@@ -112,11 +141,9 @@ const addToCart = async (product: Product) => {
 
     .product-list-action {
       display: flex;
-      flex-direction: column;
     }
 
     .product-list-action {
-      margin-top: 2rem;
       flex-direction: row;
       justify-content: space-between;
       align-items: center;

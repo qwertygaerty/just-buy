@@ -36,3 +36,7 @@
 .p-orderlist-list::-webkit-scrollbar-thumb {
     background-color: var(--primary-color);
 }
+
+a {
+    text-decoration: none;
+}

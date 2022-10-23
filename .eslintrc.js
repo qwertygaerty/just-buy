@@ -6,16 +6,20 @@ module.exports = {
   },
   'extends': [
     'plugin:vue/vue3-essential',
-    'eslint:recommended'
+    'eslint:recommended',
+    'plugin:vue/vue3-recommended',
   ],
   parserOptions: {
     ecmaVersion: 2020,
-    parser: 'espree', // <-
+    parser: "@typescript-eslint/parser", // <-
     sourceType: 'module',
   },
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off'
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    "vue/multi-word-component-names": ["error", {
+      "ignores": ['Button', 'Menubar', 'Password', 'Message', 'Dialog']
+    }]
   },
   parser: 'vue-eslint-parser',
 }

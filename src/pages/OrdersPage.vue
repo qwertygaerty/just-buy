@@ -1,14 +1,22 @@
 <template>
+  <SkeletonOrder
+    v-if="isLoading"
+    :number-of-skeleton="8"
+  />
 
-
-  <SkeletonOrder v-if="isLoading" :number-of-skeleton="8"/>
-
-  <Accordion class="w-full" :multiple="true" v-if="!isLoading">
-    <AccordionTab v-for="order in ordersWithProducts" :key="order.id">
+  <Accordion
+    v-if="!isLoading"
+    class="w-full"
+    :multiple="true"
+  >
+    <AccordionTab
+      v-for="order in ordersWithProducts"
+      :key="order.id"
+    >
       <template #header>
         <div class="flex justify-content-between w-11">
           <div class="flex gap-3">
-            <i class="pi pi-shopping-bag"></i>
+            <i class="pi pi-shopping-bag" />
             <span>ID Заказа  {{ order.id }}</span>
           </div>
 
@@ -16,33 +24,44 @@
             <h3>Итого: <span class="order-price">{{ order.order_price }}</span></h3>
             <p>Количество товаров: {{ order.products.map(prod => reducer += prod.count, reducer = 0).reverse()[0] }}</p>
           </div>
-
         </div>
       </template>
       <div class="card">
-
-        <OrderList v-model="order.products" listStyle="height:auto" dataKey="id" :controls="false" :paginator="true"
-                   :rows="9">
+        <OrderList
+          v-model="order.products"
+          list-style="height:auto"
+          data-key="id"
+          :controls="false"
+          :paginator="true"
+          :rows="9"
+        >
           <template #item="slotProps">
             <div class="product-item">
               <div class="image-container">
-                <img src="https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png"
-                     :alt="slotProps.item.name"/>
+                <img
+                  :src="images[Math.floor(images.length*slotProps.item.id/100)]"
+                  :alt="slotProps.item.name"
+                >
               </div>
               <div class="product-list-detail">
-                <h4 class="mb-2">{{ slotProps.item.name }}</h4>
-                <i class="pi pi-tag product-category-icon"></i>
+                <h4 class="mb-2">
+                  {{ slotProps.item.name }}
+                </h4>
+                <i class="pi pi-tag product-category-icon" />
               </div>
               <div class="product-list-detail">
-                <h4 class="mb-2">Количество: {{ slotProps.item.count }}</h4>
+                <h4 class="mb-2">
+                  Количество: {{ slotProps.item.count }}
+                </h4>
               </div>
               <div class="product-list-action">
-                <h4 class="mb-2">${{ slotProps.item.price * slotProps.item.count }}</h4>
+                <h4 class="mb-2">
+                  ${{ slotProps.item.price * slotProps.item.count }}
+                </h4>
               </div>
             </div>
           </template>
         </OrderList>
-
       </div>
     </AccordionTab>
   </Accordion>
@@ -53,7 +72,7 @@ import type {Ref} from "vue";
 import {onMounted, ref} from "vue";
 import type Product from "@/assets/helpers/interfaces/Product";
 import type Order from "@/assets/helpers/interfaces/Order";
-import {OrderRequest, ProductRequest} from "@/services/APIService";
+import {ImageRequest, OrderRequest, ProductRequest} from "@/services/APIService";
 import type {CartProduct} from "@/assets/helpers/interfaces/CartProduct";
 import SkeletonOrder from "@/components/order/SkeletonOrder.vue"
 
@@ -96,6 +115,12 @@ const getData = async () => {
   });
 }
 onMounted(() => getData());
+
+const images = ref([]);
+const getImage = async () => {
+  images.value = await ImageRequest.getImage('sofa');
+}
+getImage();
 
 </script>
 
@@ -142,8 +167,15 @@ onMounted(() => getData());
 }
 
 @media screen and (max-width: 576px) {
+
+  .product-list-detail {
+    flex: auto !important;
+    width: 100%;
+    margin-bottom: 1rem;
+  }
   .product-item {
     flex-wrap: wrap;
+    border-bottom: 1px white solid;
 
     .image-container {
       width: 100%;
@@ -158,7 +190,7 @@ onMounted(() => getData());
 }
 
 .order-price {
-  font-family: RobotoBold;
+  font-family: RobotoBold, sans-serif;
 }
 
 

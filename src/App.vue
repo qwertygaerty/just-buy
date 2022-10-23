@@ -3,7 +3,7 @@ import DefaultLayout from '@/components/DefaultLayout.vue'</script>
 
 <template>
   <DefaultLayout>
-    <RouterView/>
+    <RouterView />
   </DefaultLayout>
 </template>
 
@@ -19,12 +19,13 @@ import DefaultLayout from '@/components/DefaultLayout.vue'</script>
   .product-grid-item {
     border: 1px solid hsla(0,0%,100%,.12) !important;
   }
-
   .parallax-text {
     color: var(--gray-50);
   }
-
 }
 
+.p-toast-top-right {
+  right: 20px!important;
+}
 
 </style>

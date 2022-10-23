@@ -1,25 +1,45 @@
 <template>
   <div class="w-full flex flex-wrap">
-    <Accordion class="w-full" :multiple="true" >
-      <AccordionTab v-for="skeleton in props.numberOfSkeleton" :key="skeleton">
+    <Accordion
+      class="w-full"
+      :multiple="true"
+    >
+      <AccordionTab
+        v-for="skeleton in props.numberOfSkeleton"
+        :key="skeleton"
+      >
         <template #header>
           <div class="flex justify-content-between w-11">
             <div class="flex gap-3 ">
-              <Skeleton shape="circle" size="1rem" borderRadius="20px"/>
-              <Skeleton width="5rem" class="" height="1.2rem"></Skeleton>
+              <Skeleton
+                shape="circle"
+                size="1rem"
+                border-radius="20px"
+              />
+              <Skeleton
+                width="5rem"
+                class=""
+                height="1.2rem"
+              />
             </div>
 
             <div class="flex gap-3 flex-column">
-              <Skeleton width="11rem" class="" height="1.4rem"></Skeleton>
-              <Skeleton width="7rem" class="" height="1.2rem"></Skeleton>
+              <Skeleton
+                width="11rem"
+                class=""
+                height="1.4rem"
+              />
+              <Skeleton
+                width="7rem"
+                class=""
+                height="1.2rem"
+              />
             </div>
-
           </div>
         </template>
       </AccordionTab>
     </Accordion>
   </div>
-
 </template>
 
 <script setup lang="ts">

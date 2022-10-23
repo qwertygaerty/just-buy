@@ -1,53 +1,110 @@
 <template>
   <div class="card p-fluid w-full p-0">
-    <DataTable :value="props.numberOfSkeleton" responsiveLayout="stack" :paginator="false" :rows="5" removableSort breakpoint="960px">
+    <DataTable
+      :value="props.numberOfSkeleton"
+      responsive-layout="stack"
+      :paginator="false"
+      :rows="5"
+      removable-sort
+      breakpoint="960px"
+    >
       <Column class="w-4">
         <template #body>
-          <Skeleton width="100%" height="7rem" class="product-image"></Skeleton>
+          <Skeleton
+            width="100%"
+            height="7rem"
+            class="product-image"
+          />
         </template>
       </Column>
       <Column field="name">
         <template #header>
-          <Skeleton width="35%" class="my-2" height="1.2rem"></Skeleton>
+          <Skeleton
+            width="35%"
+            class="my-2"
+            height="1.2rem"
+          />
         </template>
 
         <template #body>
-          <Skeleton width="100%" class="my-2" height="1.2rem"></Skeleton>
+          <Skeleton
+            width="100%"
+            class="my-2"
+            height="1.2rem"
+          />
         </template>
       </Column>
 
-      <Column field="description" class="w-4 gap-4">
+      <Column
+        field="description"
+        class="w-4 gap-4"
+      >
         <template #header>
           <div>
-            <Skeleton width="5rem" class="my-2" height="1.2rem"></Skeleton>
+            <Skeleton
+              width="5rem"
+              class="my-2"
+              height="1.2rem"
+            />
           </div>
         </template>
         <template #body>
           <div class="table-description">
-            <Skeleton width="100%" class="my-2" height="0.7rem"></Skeleton>
-            <Skeleton width="70%" class="my-2" height="0.7rem"></Skeleton>
-            <Skeleton width="40%" class="my-2" height="0.7rem"></Skeleton>
+            <Skeleton
+              width="100%"
+              class="my-2"
+              height="0.7rem"
+            />
+            <Skeleton
+              width="70%"
+              class="my-2"
+              height="0.7rem"
+            />
+            <Skeleton
+              width="40%"
+              class="my-2"
+              height="0.7rem"
+            />
           </div>
         </template>
       </Column>
-      <Column field="price" >
-        <template  #header>
-          <Skeleton width="35%" class="my-2" height="1.2rem"></Skeleton>
+      <Column field="price">
+        <template #header>
+          <Skeleton
+            width="35%"
+            class="my-2"
+            height="1.2rem"
+          />
         </template>
         <template #body>
-          <Skeleton width="100%" height=".7rem" class="my-1"></Skeleton>
+          <Skeleton
+            width="100%"
+            height=".7rem"
+            class="my-1"
+          />
         </template>
       </Column>
       <template #footer>
         <div class="flex justify-content-between gap-3">
-          <Skeleton width="25%" class="my-2" height="1.2rem"></Skeleton>
-          <Skeleton width="25%" class="my-2" height="1.2rem"></Skeleton>
-          <Skeleton width="25%" class="my-2" height="1.7rem"></Skeleton>
+          <Skeleton
+            width="25%"
+            class="my-2"
+            height="1.2rem"
+          />
+          <Skeleton
+            width="25%"
+            class="my-2"
+            height="1.2rem"
+          />
+          <Skeleton
+            width="25%"
+            class="my-2"
+            height="1.7rem"
+          />
         </div>
       </template>
     </DataTable>
   </div>
-
 </template>
 
 <script setup lang="ts">
