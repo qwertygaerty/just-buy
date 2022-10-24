@@ -59,7 +59,7 @@ const timeLineOptions = ref([
     color: 'var(--primary-color)',
     image: 'game-controller.jpg',
     type: 'left',
-    src: '/src/assets/images/register.png',
+    src:   new URL('../assets/images/register.png', import.meta.url).href,
     num: '01',
   },
   {
@@ -67,7 +67,7 @@ const timeLineOptions = ref([
     icon: 'pi pi-shopping-cart',
     color: 'var(--primary-color)',
     type: 'right',
-    src: '/src/assets/images/add-to-cart.png',
+    src: new URL('../assets/images/add-to-cart.png', import.meta.url).href,
     num: '02',
   },
   {
@@ -75,7 +75,7 @@ const timeLineOptions = ref([
     icon: 'pi pi-check-circle',
     color: 'var(--primary-color)',
     type: 'left',
-    src: '/src/assets/images/create-order.png',
+    src: new URL('../assets/images/create-order.png', import.meta.url).href,
     num: '03',
   },
 ]);
